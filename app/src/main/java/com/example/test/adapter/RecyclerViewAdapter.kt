@@ -1,72 +1,56 @@
 package com.example.test.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.test.model.User
+import com.bumptech.glide.Glide
 import com.example.test.R
-import com.squareup.picasso.Picasso
+import com.example.test.databinding.RecyclerListRowBinding
+import com.example.test.model.User
 
-class RecyclerViewAdapter(
-  //  private val userList: ArrayList<User>,
-    private val listener: OnItemClickListener
-) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>(){
+class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+    var items = ArrayList<User>()
 
-    var Users = ArrayList<User>()
-
-    fun setUpdatedData(items : ArrayList<User>) {
-        this.Users = items
-        notifyDataSetChanged()
+    fun setDataList(data :  ArrayList<User>) {
+        this.items = data
     }
-    inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView),
-    View.OnClickListener{
-        val avatar = itemView.findViewById<ImageView>(R.id.avatar)
-        val firstName = itemView.findViewById<TextView>(R.id.firstName)
-        val lastName = itemView.findViewById<TextView>(R.id.lastName)
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(p0: View?) {
-            val position = adapterPosition
-            if(position != RecyclerView.NO_POSITION)
-            listener.onItemClick(position)
-        }
-
-        fun bind(data : User) {
-            firstName.text = data.first_name
-            lastName.text = data.last_name
-            val url  = data.avatar
-            Picasso.get()
-                .load(url)
-                .into(avatar)
-        }
-    }
-
-    interface OnItemClickListener{
-        fun onItemClick(position: Int)
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_list_row, parent, false)
-
-        return MyViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = RecyclerListRowBinding.inflate(layoutInflater)
+        return MyViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return Users.size
-    }
+    override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-      holder.bind(Users[position])
-
+        holder.bind(items[position])
     }
 
+    class MyViewHolder(private val binding: RecyclerListRowBinding): RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: User) {
+            binding.userData = data
+            binding.executePendingBindings()
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        @BindingAdapter("loadImage")
+        fun loadImage(avatar: ImageView, url: String) {
+            Glide.with(avatar)
+                .load(url)
+                .circleCrop()
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_foreground)
+                .fallback(R.drawable.ic_launcher_foreground)
+                .into(avatar)
+        }
+
+    }
 
 
 }
