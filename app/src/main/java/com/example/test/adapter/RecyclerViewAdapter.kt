@@ -35,6 +35,7 @@ class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder
             binding.userData = data
             binding.executePendingBindings()
         }
+
     }
 
     companion object {

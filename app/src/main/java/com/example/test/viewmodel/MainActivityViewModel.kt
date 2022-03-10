@@ -3,11 +3,14 @@ import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.test.network.RetroService
 import com.example.test.adapter.RecyclerViewAdapter
 import com.example.test.model.User
 import com.example.test.model.UserList
 import com.example.test.network.RetroInstance
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +34,7 @@ class MainActivityViewModel : ViewModel(){
     }
 
     fun makeAPICall(input : String) {
+        viewModelScope.launch(Dispatchers.IO) {
         val retroInstance = RetroInstance.getRetroInstance().create(RetroService::class.java)
         val call = retroInstance.getDataFromAPI(input)
         call.enqueue(object : Callback<UserList>{
@@ -46,6 +50,6 @@ class MainActivityViewModel : ViewModel(){
                 }
             }
         })
-    }
+    }}
 
 }

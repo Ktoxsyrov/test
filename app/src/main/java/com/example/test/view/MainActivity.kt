@@ -2,6 +2,7 @@ package com.example.test.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,12 +18,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+
+    interface OnItemClickListener{
+        fun onItemClicked(position: Int, view: View)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val viewModel = makeApiCall()
 
         setupBinding(viewModel)
+
+
 
         findViewById<FloatingActionButton>(R.id.rafreshFAB).setOnClickListener {
             setupBinding(viewModel)
@@ -35,8 +42,20 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding.setVariable(com.example.test.BR.viewModel,  viewModel)
         activityMainBinding.executePendingBindings()
 
-        findViewById<RecyclerView>(R.id.recyclerView).apply {
+        findViewById<RecyclerView>(R.id.recyclerView).addOnItemCLickListener(object: OnItemClickListener{
+            override fun onItemClicked(position: Int, view: View) {
 
+
+
+                Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
+
+
+
+            }
+
+        })
+
+        findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             val decoration  = DividerItemDecoration(this@MainActivity, VERTICAL)
             addItemDecoration(decoration)
@@ -59,5 +78,21 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.makeAPICall("2")
         return viewModel
+    }
+
+
+
+    fun RecyclerView.addOnItemCLickListener(onClickListener: OnItemClickListener){
+        this.addOnChildAttachStateChangeListener(object: RecyclerView.OnChildAttachStateChangeListener {
+            override fun onChildViewDetachedFromWindow(view: View) {
+                view.setOnClickListener(null)
+            }
+            override fun onChildViewAttachedToWindow(view: View) {
+                view.setOnClickListener {
+                    val holder = getChildViewHolder(view)
+                    onClickListener.onItemClicked(holder.bindingAdapterPosition, view)
+                }
+            }
+        })
     }
 }
