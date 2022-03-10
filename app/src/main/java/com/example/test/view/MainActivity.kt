@@ -3,38 +3,46 @@ package com.example.test.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-import com.example.test.R
 import com.example.test.databinding.ActivityMainBinding
 import com.example.test.model.UserList
 import com.example.test.viewmodel.MainActivityViewModel
 import androidx.recyclerview.widget.RecyclerView
+import com.example.test.R
+import com.example.test.adapter.RecyclerViewAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+    lateinit var viewModel: MainActivityViewModel
+    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
     interface OnItemClickListener{
         fun onItemClicked(position: Int, view: View)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         supportActionBar?.hide()
-        val viewModel = makeApiCall()
 
+//        val refresh: FloatingActionButton = findViewById(R.id.refresh_fab)
+//        refresh.setOnClickListener {
+//            Toast.makeText(this@MainActivity, "Refreshing", Toast.LENGTH_SHORT).show()
+//            //setupBinding(viewModel)
+//        }
+
+        viewModel = makeApiCall()
         setupBinding(viewModel)
 
-
-
-        findViewById<FloatingActionButton>(R.id.rafreshFAB).setOnClickListener {
-            setupBinding(viewModel)
-        }
     }
 
     private fun setupBinding(viewModel: MainActivityViewModel) {
@@ -48,10 +56,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-                Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this@MainActivity, "${recyclerViewAdapter.items.size}", Toast.LENGTH_SHORT).show()
+                val clickedItem = recyclerViewAdapter.items[position]
+                supportFragmentManager.beginTransaction()
+                    .replace(findViewById<FragmentContainerView>(R.id.container).id, UserDetailFragment(clickedItem))
+                    .commit()
 
 
-
+//                findViewById<FrameLayout>(R.id.recyclerView).isClickable = false
             }
 
         })
@@ -66,12 +78,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeApiCall(): MainActivityViewModel {
         val viewModel =  ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-
+        recyclerViewAdapter = RecyclerViewAdapter()
         viewModel.getRecyclerListDataObserver().observe(this, Observer<UserList>{
             if(it != null) {
 
                 //update the adapter
                 viewModel.setAdapterData(it.data)
+                recyclerViewAdapter.setDataList(it.data)
+               // recyclerViewAdapter.items = it.data
             } else {
                 Toast.makeText(this@MainActivity, "Error in fetching data", Toast.LENGTH_LONG).show()
             }
@@ -83,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    fun RecyclerView.addOnItemCLickListener(onClickListener: OnItemClickListener){
+    private fun RecyclerView.addOnItemCLickListener(onClickListener: OnItemClickListener){
         this.addOnChildAttachStateChangeListener(object: RecyclerView.OnChildAttachStateChangeListener {
             override fun onChildViewDetachedFromWindow(view: View) {
                 view.setOnClickListener(null)
