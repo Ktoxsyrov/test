@@ -1,6 +1,7 @@
 package com.example.test.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -9,12 +10,13 @@ import com.bumptech.glide.Glide
 import com.example.test.R
 import com.example.test.databinding.RecyclerListRowBinding
 import com.example.test.model.User
+import kotlinx.android.synthetic.main.recycler_list_row.view.*
 
-class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-    var items = ArrayList<User>()
+class RecyclerViewAdapter(): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 
-    fun setDataList(data :  ArrayList<User>) {
-        this.items = data
+    private var listData: List<User>? = null
+    fun setListData(listData: List<User>?) {
+        this.listData = listData
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -23,22 +25,28 @@ class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount() = items.size
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(listData?.get(position)!!)
+    }
+
+    override fun getItemCount(): Int {
+        if(listData == null )return 0
+        return listData?.size!!
     }
 
     class MyViewHolder(private val binding: RecyclerListRowBinding): RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(data: User) {
             binding.userData = data
-            binding.executePendingBindings()
+
+//            Glide.with(binding.avatar)
+//                .load(data.avatar)
+//                .into(binding.avatar)
         }
 
     }
-
-    companion object {
+    companion object{
         @JvmStatic
         @BindingAdapter("loadImage")
         fun loadImage(avatar: ImageView, url: String) {
@@ -50,8 +58,5 @@ class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder
                 .fallback(R.drawable.ic_launcher_foreground)
                 .into(avatar)
         }
-
     }
-
-
 }

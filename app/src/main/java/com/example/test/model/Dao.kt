@@ -1,20 +1,20 @@
-//package com.example.test.model
-//
-//import androidx.room.Dao
-//import androidx.room.Delete
-//import androidx.room.Query
-//
-//
-//@Dao
-//interface UserDao {
-////
-////    @Query("SELECT * FROM users_table")
-////    fun getAllUsers(): List<User>
-////
-////    @Query("SELECT * FROM users_table WHERE id = :id")
-////    fun getUserById(id: Int)
-////
-////    @Delete
-////    suspend fun deleteUser(user: User)
-//
-//}
+package com.example.test.model
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+
+@Dao
+interface AppDao {
+
+    @Query("SELECT * FROM users_table")
+    fun getAllRecords(): LiveData<List<User>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecords(user: User)
+
+    @Query("DELETE FROM users_table")
+    fun deleteAllRecords()
+}

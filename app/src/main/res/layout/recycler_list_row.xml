@@ -8,51 +8,51 @@
             type="com.example.test.model.User" />
     </data>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_margin="5dp"
-    android:id="@+id/rowLayout"
-    >
-
-
-<ImageView android:id="@+id/avatar"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_gravity="center"
-    android:layout_margin="10dp"
-    app:loadImage='@{userData.avatar}'
-    />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp"
-        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:id="@+id/rowLayout"
         >
-        <TextView android:id="@+id/firstName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:text='@{userData.first_name}'
+
+
+        <ImageView android:id="@+id/avatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            app:loadImage='@{userData.avatar}'
             />
 
-        <TextView android:id="@+id/lastName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            android:maxLines="3"
-            android:textColor="@color/black"
-            android:text='@{userData.last_name}'
-            />
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            >
+            <TextView android:id="@+id/firstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:text='@{userData.first_name}'
+                />
+
+            <TextView android:id="@+id/lastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:maxLines="3"
+                android:textColor="@color/black"
+                android:text='@{userData.last_name}'
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 </layout>
