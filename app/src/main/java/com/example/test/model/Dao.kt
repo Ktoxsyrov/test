@@ -15,6 +15,9 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecords(user: User)
 
+    @Query("SELECT * FROM users_table WHERE id =:id")
+    fun getUserById(id:Int): User
+
     @Query("DELETE FROM users_table")
     fun deleteAllRecords()
 }

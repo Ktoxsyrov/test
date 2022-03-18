@@ -18,4 +18,8 @@ class MainActivityViewModel @Inject constructor(private val repository: RetroRep
     fun makeApiCall() {
         repository.makeApiCall("2")
     }
+
+    fun getUser(id: Int){
+        repository.getRecord(id)
+    }
 }

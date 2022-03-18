@@ -33,7 +33,9 @@ class RecyclerViewAdapter(): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHold
         if(listData == null )return 0
         return listData?.size!!
     }
-
+     fun getItemByPos(pos: Int): User{
+        return listData!![pos]
+    }
     class MyViewHolder(private val binding: RecyclerListRowBinding): RecyclerView.ViewHolder(binding.root) {
 
 

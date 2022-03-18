@@ -21,10 +21,13 @@ class RetroRepository @Inject constructor(private val retroService: RetroService
         appDao.insertRecords(user)
     }
 
-    //get the data from github api...
+    fun getRecord(id: Int): User{
+        return appDao.getUserById(id)
+    }
+
     fun makeApiCall(query: String?) {
         val call: Call<UserList> = retroService.getDataFromAPI(query!!)
-        call?.enqueue(object : Callback<UserList>{
+        call.enqueue(object : Callback<UserList>{
             override fun onResponse(
                 call: Call<UserList>,
                 response: Response<UserList>

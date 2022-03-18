@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        supportActionBar?.hide()
         initViewModel()
         initMainViewModel()
 
@@ -39,7 +40,15 @@ class MainActivity : AppCompatActivity() {
             OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
 
-                    Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
+
+                val clickedItem = recyclerViewAdapter.getItemByPos(position)
+
+                supportFragmentManager.beginTransaction()
+                    .replace(findViewById<FragmentContainerView>(R.id.container).id, UserDetailFragment(clickedItem))
+                    .commit()
+
+
+                //Toast.makeText(this@MainActivity, "$position", Toast.LENGTH_SHORT).show()
 
             }
         })
