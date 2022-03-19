@@ -16,6 +16,7 @@ import com.example.test.R
 import com.example.test.adapter.RecyclerViewAdapter
 import com.example.test.model.User
 import com.example.test.viewmodel.MainActivityViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -52,6 +53,10 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
+
+        findViewById<FloatingActionButton>(R.id.refresh_fab).setOnClickListener {
+            initMainViewModel()
+        }
     }
 
     private fun initViewModel() {

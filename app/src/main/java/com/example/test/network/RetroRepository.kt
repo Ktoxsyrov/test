@@ -21,9 +21,17 @@ class RetroRepository @Inject constructor(private val retroService: RetroService
         appDao.insertRecords(user)
     }
 
-    fun getRecord(id: Int): User{
-        return appDao.getUserById(id)
+    fun deleteUser(user: User){
+        appDao.deleteUser(user)
     }
+
+    fun updateUser(user: User){
+        appDao.updateUser(user)
+    }
+
+//    fun getRecord(id: Int): User{
+//        return appDao.getUserById(id)
+//    }
 
     fun makeApiCall(query: String?) {
         val call: Call<UserList> = retroService.getDataFromAPI(query!!)

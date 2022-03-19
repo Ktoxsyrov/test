@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,67 +7,92 @@
     android:id="@+id/allUserFrame"
     tools:context=".view.MainActivity"
     >
+
     <FrameLayout
-        android:layout_width="500dp"
-        android:layout_height="1000dp"
-        android:id="@+id/userFrame"
-        android:background="@color/black"
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center"
         android:alpha="0.5"
-        >
-    </FrameLayout>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:background="@drawable/rounded_rectangle_background"
-    >
+        android:background="@color/black" />
 
-    <ImageView
-        android:id="@+id/profilePic"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/firstNameLastName"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="350dp"
+        android:id="@+id/body"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textStyle="bold"
-        android:text="first name last name"
-        app:layout_constraintEnd_toEndOf="@+id/profilePic"
-        app:layout_constraintStart_toStartOf="@+id/profilePic"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_rectangle_background"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
 
-    <TextView
-        android:id="@+id/userId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="20dp"
-        android:text="id: "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstNameLastName" />
+        <Button
+            android:id="@+id/deleteUserButton"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:iconGravity = "textStart"
+            app:iconPadding = "0dp"
+            app:icon = "@drawable/ic_baseline_delete_24"
+            app:backgroundTint ="@color/design_default_color_error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/profilePic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="email: "
-        android:id="@+id/userEmail"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/userId"
-        app:layout_constraintTop_toBottomOf="@+id/userId" />
+        <EditText
+            android:id="@+id/firstNameFr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="first name"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/profilePic"
+            app:layout_constraintStart_toStartOf="@+id/profilePic"
+            app:layout_constraintTop_toBottomOf="@+id/profilePic" />
+
+        <EditText
+            android:id="@+id/lastNameFr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="last name"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/firstNameFr"
+            app:layout_constraintStart_toStartOf="@+id/firstNameFr"
+            app:layout_constraintTop_toBottomOf="@+id/firstNameFr" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/userId"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginStart="70dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:text="id: "-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/lastNameFr" />-->
+
+        <EditText
+            android:id="@+id/userEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email: "
+
+            app:layout_constraintEnd_toEndOf="@+id/profilePic"
+            app:layout_constraintStart_toStartOf="@+id/profilePic"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameFr" />
 
 
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
