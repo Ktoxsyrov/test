@@ -1,10 +1,12 @@
 package com.example.test.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -42,7 +44,10 @@ private val currUser = user
 
         binding.deleteUserButton.setOnClickListener {
             viewModel.deleteUser(currUser)
-           // view?.let { activity?.dismissKeyboardShortcutsHelper() }
+
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
+
             binding.allUserFrame.isVisible = false
         }
 
@@ -66,6 +71,8 @@ private val currUser = user
                     )
                 viewModel.updateUser(updatedUser)
             }
+            val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view?.windowToken, 0)
             binding.allUserFrame.isVisible = false
         }
         binding.body.setOnClickListener{
